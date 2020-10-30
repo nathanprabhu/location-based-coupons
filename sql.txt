@@ -1,0 +1,39 @@
+CREATE TABLE public.coupons
+(
+    id smallint NOT NULL,
+    store_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision,
+    coupon_desc text COLLATE pg_catalog."default",
+    CONSTRAINT coupons_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.coupons
+    OWNER to admin;
+
+INSERT INTO public.coupons (
+id, store_name, latitude, longitude, coupon_desc) VALUES (
+'1'::smallint, 'starbucks'::character varying(20), '100.1'::double precision, '200.1'::double precision, 'Get 20% off on Frappichino'::text)
+ returning id;
+
+INSERT INTO public.coupons (
+id, store_name, latitude, longitude, coupon_desc) VALUES (
+'2'::smallint, 'dunkin_donuts'::character varying(20), '50.4'::double precision, '30.1'::double precision, 'Get chocolate sprinkled donuts free with hot chocolate'::text)
+ returning id;
+
+INSERT INTO public.coupons (
+id, store_name, latitude, longitude, coupon_desc) VALUES (
+'3'::smallint, 'pizza_hut'::character varying(20), '60.4'::double precision, '20.7'::double precision, 'Get medium 2 topping pizza free with large 4 topping pizza'::text)
+ returning id;
+
+INSERT INTO public.coupons (
+id, store_name, latitude, longitude, coupon_desc) VALUES (
+'4'::smallint, 'starbucks'::character varying(20), '100.1'::double precision, '200.1'::double precision, 'Buy 1 Grande Caffe Latte, get a cookie free'::text)
+ returning id;
+
+INSERT INTO public.coupons (
+id, store_name, latitude, longitude, coupon_desc) VALUES (
+'6'::smallint, 'starbucks'::character varying(20), '100.1'::double precision, '300.1'::double precision, 'Buy 1 Grande Caffe Latte, get a cookie free'::text)
+ returning id;

@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <title>Coupons</title>
+    <script src="./script.js"></script>
+  </head>
+  <body onload="getLocation()">
+    <h2 style="text-align:center">Coupons</h2>
+
+    <p style="text-align:center">Latitude&nbsp;<input id="latitude" type="text" value="loading..."/></p>
+    
+    <p style="text-align:center">Longitude&nbsp;<input id="longitude" type="text" value="loading..."/></p>
+    
+    <p style="text-align:center"><input name="clear" type="button" value="Clear Location" onclick="clearLocation()" /></p>
+
+    <p style="text-align:center"><input name="submit" type="button" value="Get Coupons" onclick="getCoupons()" /></p>
+    <hr />
+    <div style="text-align:center" id="coupons"></div>
+
+    <script>
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else { 
+          document.getElementById("latitude").value = "unable to get location...";
+          document.getElementById("longitude").value = "unable to get location...";
+        }
+      }
+      
+      function showPosition(position) {
+        document.getElementById("latitude").value = position.coords.latitude;
+        document.getElementById("longitude").value = position.coords.longitude;
+      }
+
+      function clearLocation() {
+        document.getElementById("latitude").value = "0";
+        document.getElementById("longitude").value = "0";
+      }
+
+      async function getCoupons() {
+        const latitude = document.getElementById("latitude").value;
+        const longitude = document.getElementById("longitude").value;
+
+        const coupons = await fetch('/api/coupons/' + latitude + '/' + longitude)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            makeTableHTML(data)
+          });
+      }
+
+      function makeTableHTML(rows) {
+        var html = '<table style="border:1;">';
+        html += '<tr>';
+        for( var j in rows[0] ) {
+          html += '<th>' + j + '</th>';
+        }
+        html += '</tr>';
+        for( var i = 0; i < rows.length; i++) {
+          html += '<tr>';
+          for( var j in rows[i] ) {
+            html += '<td>' + rows[i][j] + '</td>';
+          }
+          html += '</tr>';
+        }
+        html += '</table>';
+        document.getElementById("coupons").innerHTML = html;
+    }
+
+      </script>
+  </body>
+</html>
+
+
+
